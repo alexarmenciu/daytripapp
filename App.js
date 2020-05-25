@@ -9,6 +9,8 @@
 import React from 'react';
 import GetUserLocation from './components/getlocation';
 import Map from './components/gmapsview'
+import Geolocation from '@react-native-community/geolocation';
+
 import {
   SafeAreaView,
   StyleSheet,
@@ -30,29 +32,25 @@ const App: () => React$Node = () => {
   const googleMap = new Map();
 
   getUserLocationHandler = () => {
-    console.log('that worked')
-    /*geolocation.getCurrentPosition(
-      theregion,
-      [geo_error],
-      [geo_options]
-    );*/
-    //googleMap.region = code in a way to find the region here
+    Geolocation.getCurrentPosition(success, theError => console.log(theError), {maximumAge: 0})
+  }
+  
+
+  function success(pos) {
+    var crd = pos.coords;
+    var newregion = {
+      latitude: crd.latitude,
+      longitude:crd.latitude,
+      latitudeDelta: 0.08,
+      longitudeDelta: 0.08
+    }
+    
+    googleMap.onRegionChange(newregion)
+    googleMap.render
+
+    console.log('the recieved coordinate is:' + crd.latitude)
   }
 
-  /*function success(pos) {
-    var crd = pos.coords;
-    googleMap.theregion[latitude] = crd.latitude;
-    googleMap.theregion[longitude] = crd.longitude;
-  }*/
-
-  googleMap.theregion = {
-    latitude: 37.78825,
-    longitude: -122.4324,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
-  };
-
-  console.log(googleMap.theregion)
 
   return (
     <>
