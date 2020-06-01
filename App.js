@@ -27,6 +27,7 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import { AnimatedRegion } from 'react-native-maps';
 
 const App: () => React$Node = () => {
   const googleMap = new Map();
@@ -40,12 +41,12 @@ const App: () => React$Node = () => {
     var crd = pos.coords;
     var newregion = {
       latitude: crd.latitude,
-      longitude:crd.latitude,
-      latitudeDelta: 0.08,
-      longitudeDelta: 0.08
-    }
-    
-    googleMap.onRegionChange(newregion)
+      longitude:crd.longitude,
+      latitudeDelta: 0.025,
+      longitudeDelta: 0.025
+    };
+    googleMap.changeRegion(newregion)
+    console.log(googleMap.state)
     googleMap.render
 
     console.log('the recieved coordinate is:' + crd.latitude)
